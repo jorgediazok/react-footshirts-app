@@ -42,6 +42,7 @@ function App() {
         content_type: 'footballShirts',
       });
       const data = await response.items;
+      console.log(data);
       setCamisetas(data);
     } catch (err) {
       console.log(err);
@@ -62,7 +63,10 @@ function App() {
               src={camiseta.fields.image.fields.file.url}
               alt={camiseta.fields.title}
             />
-            ;
+            <div className="slider__model__container">
+              <p className="slider__model__text">{camiseta.fields.model}</p>
+            </div>
+            <p className="slider__model__year">{camiseta.fields.year}</p>
           </div>
         ))}
       </Slider>
@@ -71,56 +75,3 @@ function App() {
 }
 
 export default App;
-
-/*
- <div>
-        {camisetas.map((camiseta) => {
-          return (
-            <img
-              src={camiseta.fields.image.fields.file.url}
-              alt={camiseta.fields.title}
-            />
-          );
-        })}
-      </div>
-*/
-
-/*
- <ul className="slider__list">
-        <li>
-          <img
-            src="https://http2.mlstatic.com/D_NQ_NP_758478-MLA44299392963_122020-O.webp"
-            alt="camiseta1"
-            className="slider__image"
-          />
-        </li>
-        <li>
-          <img
-            src="https://http2.mlstatic.com/D_NQ_NP_815304-MLA44108743770_112020-O.webp"
-            alt="camiseta2"
-            className="slider__image"
-          />
-        </li>
-        <li>
-          <img
-            src="https://http2.mlstatic.com/D_NQ_NP_826023-MLA44227287013_122020-O.webp"
-            alt="camiseta3"
-            className="slider__image"
-          />
-        </li>
-        <li>
-          <img
-            src="https://http2.mlstatic.com/D_NQ_NP_999174-MLA44211511681_112020-O.webp"
-            alt="camiseta4"
-            className="slider__image"
-          />
-        </li>
-        <li>
-          <img
-            src="https://http2.mlstatic.com/D_NQ_NP_764178-MLA43683735791_102020-O.webp"
-            alt="camiseta5"
-            className="slider__image"
-          />
-        </li>
-      </ul>
-*/
