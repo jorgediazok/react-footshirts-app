@@ -6,10 +6,11 @@ import Client from './api';
 
 function App() {
   const [camisetas, setCamisetas] = useState([]);
+  const [imageIndex, setImageIndex] = useState(0);
 
   const NextArrow = ({ onClick }) => {
     return (
-      <div className="arrow__next" onClick={onClick}>
+      <div className="arrow next" onClick={onClick}>
         <FaArrowRight />
       </div>
     );
@@ -17,7 +18,7 @@ function App() {
 
   const PrevArrow = ({ onClick }) => {
     return (
-      <div className="arrow__prev" onClick={onClick}>
+      <div className="arrow prev" onClick={onClick}>
         <FaArrowLeft />
       </div>
     );
@@ -32,6 +33,7 @@ function App() {
     centerPadding: 0,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
+    beforeChange: (current, next) => setImageIndex(next),
   };
 
   const getData = async () => {
@@ -54,7 +56,7 @@ function App() {
     <div className="App">
       <Slider {...settings}>
         {camisetas.map((camiseta, index) => (
-          <div>
+          <div className={index === imageIndex ? 'slide activeSlide' : 'slide'}>
             <img
               className="slider__image"
               src={camiseta.fields.image.fields.file.url}
