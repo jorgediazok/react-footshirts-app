@@ -8,9 +8,10 @@
 }
 
 .slider__image {
-  width: 20rem;
+  width: 15rem;
   margin: 0 auto;
-  max-height: 300px;
+  margin-top: 10px;
+  max-height: 270px;
 }
 
 .slide {

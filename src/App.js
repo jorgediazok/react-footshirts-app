@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import InputTeams from './components/InputTeams';
 import './App.css';
 import Slider from 'react-slick';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
@@ -36,25 +37,25 @@ function App() {
     beforeChange: (current, next) => setImageIndex(next),
   };
 
-  const getData = async () => {
-    try {
-      let response = await Client.getEntries({
-        content_type: 'footballShirts',
-      });
-      const data = await response.items;
-      console.log(data);
-      setCamisetas(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
+    const getData = async () => {
+      try {
+        let response = await Client.getEntries({
+          content_type: 'footballShirts',
+        });
+        const data = await response.items;
+        console.log(data);
+        setCamisetas(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
     getData();
   }, []);
 
   return (
     <div className="App">
+      <InputTeams data={camisetas} />
       <Slider {...settings}>
         {camisetas.map((camiseta, index) => (
           <div className={index === imageIndex ? 'slide activeSlide' : 'slide'}>
