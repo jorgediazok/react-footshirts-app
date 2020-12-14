@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import InputTeams from './components/InputTeams';
 import './App.css';
 import Slider from 'react-slick';
@@ -58,7 +58,9 @@ function App() {
       <InputTeams data={camisetas} />
       <Slider {...settings}>
         {camisetas.map((camiseta, index) => (
-          <div className={index === imageIndex ? 'slide activeSlide' : 'slide'}>
+          <div
+            key={camiseta.sys.id}
+            className={index === imageIndex ? 'slide activeSlide' : 'slide'}>
             <img
               className="slider__image"
               src={camiseta.fields.image.fields.file.url}

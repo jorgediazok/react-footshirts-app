@@ -44,7 +44,6 @@ const InputTeams = ({ data }) => {
       <FormControl className={classes.formControl}>
         <InputLabel id="demo-controlled-open-select-label">Team</InputLabel>
         <Select
-          labelId="demo-controlled-open-select-label"
           id="demo-controlled-open-select"
           open={open}
           onClose={handleClose}
@@ -52,7 +51,9 @@ const InputTeams = ({ data }) => {
           value={teams}
           onChange={handleChange}>
           {data.map((team) => (
-            <MenuItem value={team}>{team.fields.model}</MenuItem>
+            <MenuItem key={team.sys.id} value={team}>
+              {team.fields.model}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
