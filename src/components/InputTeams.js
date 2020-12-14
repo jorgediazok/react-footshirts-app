@@ -19,14 +19,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const InputTeams = ({ data }) => {
+const InputTeams = ({ teamsList, handleChange, selectedTeam }) => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
-  const [teams, setTeams] = useState([]);
 
-  const handleChange = (event) => {
-    setTeams(event.target.value);
-  };
+  const [open, setOpen] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -48,11 +44,11 @@ const InputTeams = ({ data }) => {
           open={open}
           onClose={handleClose}
           onOpen={handleOpen}
-          value={teams}
+          value={selectedTeam}
           onChange={handleChange}>
-          {data.map((team) => (
-            <MenuItem key={team.sys.id} value={team}>
-              {team.fields.model}
+          {teamsList.map((team) => (
+            <MenuItem key={team.fields.id} value={team.fields.id}>
+              {team.fields.name}
             </MenuItem>
           ))}
         </Select>

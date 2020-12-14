@@ -7,7 +7,13 @@ import Client from './api';
 
 function App() {
   const [camisetas, setCamisetas] = useState([]);
+  const [teams, setTeams] = useState([]);
   const [imageIndex, setImageIndex] = useState(0);
+  const [selectedTeam, setSelectedTeam] = useState(1);
+
+  const handleChange = (event) => {
+    setSelectedTeam(event.target.value);
+  };
 
   const NextArrow = ({ onClick }) => {
     return (
@@ -29,7 +35,7 @@ function App() {
     infinite: true,
     lazyLoad: true,
     speed: 300,
-    slidesToShow: 3,
+    slidesToShow: 1,
     centerMode: true,
     centerPadding: 0,
     nextArrow: <NextArrow />,
@@ -53,25 +59,54 @@ function App() {
     getData();
   }, []);
 
+  useEffect(() => {
+    const getTeams = async () => {
+      try {
+        let response = await Client.getEntries({
+          content_type: 'teams',
+        });
+        const data = await response.items;
+        console.log(data);
+        setTeams(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getTeams();
+  }, []);
+
   return (
     <div className="App">
-      <InputTeams data={camisetas} />
+      <InputTeams
+        data={camisetas}
+        teamsList={teams}
+        handleChange={handleChange}
+        selectedTeam={selectedTeam}
+      />
       <Slider {...settings}>
-        {camisetas.map((camiseta, index) => (
-          <div
-            key={camiseta.sys.id}
-            className={index === imageIndex ? 'slide activeSlide' : 'slide'}>
-            <img
-              className="slider__image"
-              src={camiseta.fields.image.fields.file.url}
-              alt={camiseta.fields.title}
-            />
-            <div className="slider__model__container">
-              <p className="slider__model__text">{camiseta.fields.model}</p>
-            </div>
-            <p className="slider__model__year">{camiseta.fields.year}</p>
-          </div>
-        ))}
+        {camisetas &&
+          camisetas.length &&
+          camisetas
+            .filter(
+              (camiseta) => camiseta.fields.teamName.fields.id === selectedTeam
+            )
+            .map((camiseta, index) => (
+              <div
+                key={camiseta.sys.id}
+                className={
+                  index === imageIndex ? 'slide activeSlide' : 'slide'
+                }>
+                <img
+                  className="slider__image"
+                  src={camiseta.fields.image.fields.file.url}
+                  alt={camiseta.fields.title}
+                />
+                <div className="slider__model__container">
+                  <p className="slider__model__text">{camiseta.fields.model}</p>
+                </div>
+                <p className="slider__model__year">{camiseta.fields.year}</p>
+              </div>
+            ))}
       </Slider>
     </div>
   );
